@@ -3,9 +3,13 @@ import { noop } from './noop'
 export class TickTimer {
 	public lastTick: number
 	public nextTick: number
-	public tickLength: number = 100
+	private _tickCount: number = 0
 	private started: boolean = false
 	private paused: boolean = false
+	
+	// config keys
+	public tickLength: number = 100
+
 
 	constructor(
 		private readonly onTick: () => void = noop,
@@ -27,6 +31,7 @@ export class TickTimer {
 		if (!this.nextTick) {
 			this.updateTickTimes()
 		} else if (!this.paused && getTime() > this.nextTick) {
+			this._tickCount++
 			this.onTick()
 			this.updateTickTimes()
 		}
@@ -49,6 +54,10 @@ export class TickTimer {
 
 	public resume() {
 		this.paused = false
+	}
+
+	public get count() {
+		return new Number(this._tickCount)
 	}
 }
 

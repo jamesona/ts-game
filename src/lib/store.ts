@@ -10,7 +10,7 @@ export type ReducerMap<S extends object, A extends Action = Action> = Map<keyof 
 export class Store<S extends object = object, A extends Action = Action> {
 	private past: Action[] = []
 	private future: Action[] = []
-	private state: any
+	private state: S
 
 	constructor(
 		private readonly reducers: ReducerMap<S, A>,
